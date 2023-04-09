@@ -3,7 +3,10 @@ import asyncio
 import time
 from dotenv import load_dotenv
 import os
+import requests
 import random
+
+imglist = "https://raw.githubusercontent.com/micfun123/mastodon_image_reply/main/pics/imagenames.txt"
 
 load_dotenv()
 
@@ -26,6 +29,12 @@ for follower in followers:
     for post in mastodon.account_statuses(follower):
         posts.append(post.id)
 
+
+
+r = requests.get(imglist)
+list = r.text 
+list = list.splitlines()
+
 while True:
     #get all new posts from the people that follow me
     for follower in followers:
@@ -37,8 +46,12 @@ while True:
                 print(post.content)
                 print("")
                 if random.randint(1, 15) == 1:
-                    # reply to the post with random pic
-                    file = random.choice(os.listdir("pics"))
-                    #reply to the post
-                    mastodon.status_post(status=f"@{post.account.acct} {file}", in_reply_to_id=post.id, media_ids=mastodon.media_post("pics/" + file))
+                    #get list of files from github
+                    #pick random file from list
+                    name = random.choice(list)
+                    file = requests.get(f"https://raw.githubusercontent.com/micfun123/mastodon_image_reply/main/pics/{name}")
+                    mastodon.status_post(f"{name}", in_reply_to_id=post.id, media_ids=[file.json()["id"]])
+
+                    
+                    
     time.sleep(250)
