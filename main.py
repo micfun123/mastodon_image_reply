@@ -37,7 +37,7 @@ while True:
                 print(post.id)
                 print(post.content)
                 print("")
-                if random.randint(0, 5) == 5:
+                if random.randint(1, 15) == 5:
                     file = random.choice(os.listdir("pics"))
                     print(file)
                     #reply to the post
