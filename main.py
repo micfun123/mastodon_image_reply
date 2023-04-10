@@ -38,12 +38,13 @@ while True:
                 print(post.id)
                 print(post.content)
                 print("")
-                file = random.choice(os.listdir("pics"))
-                print(file)
-                #reply to the post
-                print(str(follower))
-                follower_link = mastodon.account(follower).acct
-                mastodon.status_post(f"@{follower_link} Here is a picture of a cat", media_ids=mastodon.media_post("pics/" + file), in_reply_to_id=post.id)
+                if random.randint(0, 5) == 5:
+                    file = random.choice(os.listdir("pics"))
+                    print(file)
+                    #reply to the post
+                    print(str(follower))
+                    follower_link = mastodon.account(follower).acct
+                    mastodon.status_post(f"@{follower_link} Here is a picture of a cat", media_ids=mastodon.media_post("pics/" + file), in_reply_to_id=post.id)
                     
     time.sleep(250)
     os.system("git pull")
