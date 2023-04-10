@@ -41,6 +41,9 @@ while True:
                 file = random.choice(os.listdir("pics"))
                 print(file)
                 #reply to the post
-                mastodon.status_post("@" + str(follower) + " " + file, in_reply_to_id=post.id, media_ids=mastodon.media_post("pics/" + file))
+                print(str(follower))
+                follower_link = mastodon.account(follower).acct
+                mastodon.status_post(f"@{follower_link} Here is a picture of a cat", media_ids=mastodon.media_post("pics/" + file), in_reply_to_id=post.id)
                     
-    time.sleep(20)
+    time.sleep(250)
+    os.system("git pull")
